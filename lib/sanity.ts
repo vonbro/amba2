@@ -1,25 +1,34 @@
+// lib/sanity.ts
+
 import { createClient } from "next-sanity"
 import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url"
 
+const projectId =
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
+  process.env.SANITY_PROJECT_ID
+
+const dataset =
+  process.env.NEXT_PUBLIC_SANITY_DATASET ||
+  process.env.SANITY_DATASET
+
+if (!projectId || !dataset) {
+  throw new Error("Missing Sanity environment variables")
+}
+
 export const client = createClient({
-  projectId:
-    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ??
-    process.env.SANITY_PROJECT_ID!,
-  dataset:
-    process.env.NEXT_PUBLIC_SANITY_DATASET ??
-    process.env.SANITY_DATASET!,
+  projectId,
+  dataset,
   apiVersion: "2024-03-01",
   useCdn: true,
 })
 
-/* Image URL builder */
 const builder = createImageUrlBuilder(client)
 
 export function urlFor(source: SanityImageSource) {
   return builder.image(source)
 }
 
-/* Types */
+/* ✅ EXPORT THIS */
 export interface SanityGalleryImage {
   _id: string
   title: string
@@ -29,7 +38,7 @@ export interface SanityGalleryImage {
   publishedAt: string
 }
 
-/* Queries */
+/* ✅ EXPORT THIS */
 export async function getSanityImagesByCategory(
   categorySlug: string
 ): Promise<SanityGalleryImage[]> {

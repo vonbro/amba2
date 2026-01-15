@@ -7,7 +7,7 @@ const NewHeroSection = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1920&q=80"
+          src="/neckpage.jpg"
           alt="Elegant jewellery background"
           fill
           className="object-cover"
